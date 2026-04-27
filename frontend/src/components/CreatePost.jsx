@@ -12,7 +12,7 @@ const CreatePost = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:8000/posts", {
+      const res = await fetch("https://blogpost-g0z2.onrender.com/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -17,13 +17,13 @@ const Posts = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const postsRes = await fetch("http://localhost:8000/posts", {
+      const postsRes = await fetch("https://blogpost-g0z2.onrender.com/posts", {
         credentials: "include",
       });
       setPosts(await postsRes.json());
 
       const profileRes = await fetch(
-        "http://localhost:8000/api/auth/profile",
+        "https://blogpost-g0z2.onrender.com/api/auth/profile",
         { credentials: "include" }
       );
       setUser(await profileRes.json());
@@ -33,7 +33,7 @@ const Posts = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:8000/posts/${id}`, {
+    await fetch(`https://blogpost-g0z2.onrender.com/posts/${id}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -42,7 +42,7 @@ const Posts = () => {
   };
 
   const handleLogout = async () => {
-    await fetch("http://localhost:8000/api/auth/logout", {
+    await fetch("http://blogpost-g0z2.onrender.com/api/auth/logout", {
       method: "POST",
       credentials: "include",
     });

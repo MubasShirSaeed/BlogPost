@@ -10,7 +10,7 @@ const Post = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/posts/${id}`, {
+        const res = await fetch(`https://blogpost-g0z2.onrender.com/posts/${id}`, {
           method: "GET",
           credentials: "include",
         });
