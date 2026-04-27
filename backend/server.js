@@ -13,7 +13,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: [
+        "http://localhost:5173",
+        "https://blogpostmubi.netlify.app"
+    ],
     credentials: true
 }))
 
@@ -21,4 +24,4 @@ app.use('/api/auth', authRoutes);
 app.use('/', postRoutes);
 
 connectDB();
-app.listen(port, ()=> console.log(`sever i running on port ${port}`))
+app.listen(port, () => console.log(`sever i running on port ${port}`))

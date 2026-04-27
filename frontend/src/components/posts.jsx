@@ -42,7 +42,7 @@ const Posts = () => {
   };
 
   const handleLogout = async () => {
-    await fetch("http://blogpost-g0z2.onrender.com/api/auth/logout", {
+    await fetch("https://blogpost-g0z2.onrender.com/api/auth/logout", {
       method: "POST",
       credentials: "include",
     });
