@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false); // ✅ added
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // ✅ start loading
+        setError("");
+
         try {
             const response = await fetch('https://blogpost-g0z2.onrender.com/api/auth/login', {
                 method: 'POST',
@@ -22,8 +27,8 @@ const Login = () => {
 
             const data = await response.json();
             console.log(data);
+
             if (!response.ok) {
-                // 👇 THIS is the important part
                 setError(data.message || "Something went wrong");
                 return;
             }
@@ -33,6 +38,8 @@ const Login = () => {
             }
         } catch (error) {
             console.error("Error:", error);
+        } finally {
+            setLoading(false); // ✅ stop loading
         }
     }
 
@@ -72,6 +79,7 @@ const Login = () => {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
+
                     {error && (
                         <p className="text-red-400 text-sm text-center mb-3">
                             {error}
@@ -80,9 +88,17 @@ const Login = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-lg transition duration-200 font-semibold shadow-lg shadow-blue-900/30"
+                        disabled={loading}
+                        className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 text-white py-3 rounded-lg transition duration-200 font-semibold shadow-lg shadow-blue-900/30 flex items-center justify-center"
                     >
-                        Login
+                        {loading ? (
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                Logging in...
+                            </div>
+                        ) : (
+                            "Login"
+                        )}
                     </button>
 
                     <p className="text-sm text-center mt-4 text-gray-400">
