@@ -5,6 +5,9 @@ import jwt from 'jsonwebtoken';
 const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
+        if(!name || !email || !password) {
+            return res.status(400).json({ message: "all fields are required" });
+        }
 
         const existUser = await User.findOne({ email });
         if (existUser) {
@@ -32,6 +35,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: "all fields are required" });
+        }
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "no such user exist" });
