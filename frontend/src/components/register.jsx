@@ -8,9 +8,12 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(""); // reset previous error
+
         try {
             const response = await fetch('https://blogpost-g0z2.onrender.com/api/auth/register', {
                 method: 'POST',
@@ -21,15 +24,23 @@ const Register = () => {
             });
 
             const data = await response.json();
+
             console.log(data);
 
-            if (response.ok) {
-                navigate("/login");
+            if (!response.ok) {
+                // ❌ backend error
+                setError(data.massage || "Something went wrong");
+                return; // stop here, DO NOT navigate
             }
+
+            // ✅ success
+            navigate("/login");
+
         } catch (error) {
             console.error("Error:", error);
+            setError("Server error. Please try again.");
         }
-    }
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-900 via-gray-950 to-black">
@@ -75,6 +86,11 @@ const Register = () => {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
+                    {error && (
+                        <p className="text-red-400 text-sm text-center">
+                            {error}
+                        </p>
+                    )}
 
                     <button
                         type="submit"
